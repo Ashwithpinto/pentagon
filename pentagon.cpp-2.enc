@@ -1,0 +1,58 @@
+#include<windows.h>
+#include <stdio.h>
+#include <GL/glut.h>
+#include<math.h>
+float b=120,j,i,l;
+int m;
+void display()
+{
+    b+=0.1;
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+    glRotatef(130,1,0,0);
+    glRotatef(b,0,0,1);
+    GLUquadricObj *temp=gluNewQuadric();
+    glColor3f(0,1,1);
+    glPushMatrix();
+    glTranslatef(0,0,0.55);
+    gluDisk(temp,0,600,50,30);
+    gluCylinder(temp,600,600,50,30,30);
+    glPopMatrix();
+    for(i=0.5,j=500,m=20,l=0.5;i>=-0.70;i=i-0.05,j=j-30,m=(m+20)%360,l=l+0.02)
+    {
+
+            glPushMatrix();
+            glColor3f(0,l,l);
+            glTranslatef(0,0,i);
+            glRotatef(m,0,0,1);
+            gluDisk(temp,0,j,5,10);
+            gluCylinder(temp,j,j,50,5,10);
+            glPopMatrix();
+        }
+    glutSwapBuffers();
+    glutPostRedisplay();
+    glFlush();
+}
+
+void init(void)
+{
+   glClearColor(0,0,0,0);
+   glOrtho(-1000,1000,-1000,1000,-1000,1000);
+   glMatrixMode(GL_MODELVIEW);
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+}
+
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+     init();
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+	glutInitWindowSize(600,600);
+	glutCreateWindow("pentagon");
+	init();
+	glutDisplayFunc(display);
+	glutMainLoop();
+}
+
+
